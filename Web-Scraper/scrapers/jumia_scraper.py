@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-from urls import jumia_urls 
+from scrapers.urls import jumia_urls 
 from pymongo import MongoClient
 from decouple import config
 
@@ -49,11 +49,14 @@ for category, section_url in jumia_urls.items():
             try:
                 product_name = product.find_element(By.CLASS_NAME, "name").text
                 current_price = product.find_element(By.CLASS_NAME, "prc").text
+                
                 try:
                     previous_price = product.find_element(By.CLASS_NAME, "old").text
                 except:
                     previous_price = "NaN"
+
                 image_url = product.find_element(By.CSS_SELECTOR, "img.img").get_attribute("src")
+                
                 try:
                     product.find_element(By.CSS_SELECTOR, "div.bdg._mall._xs")
                     from_official_store = True
@@ -64,7 +67,7 @@ for category, section_url in jumia_urls.items():
                     "category": category,
                     "store":  "Jumia",
                     "Name" : product_name,
-                    "Current Price" : current_price,
+                    "Price" : current_price,
                     "Previous Price" : previous_price,
                     "Image URL" : image_url,
                     "IsFromOfficialStore" : from_official_store,

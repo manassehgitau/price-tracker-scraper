@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, TimeoutException
 import requests
 import time
-from urls import carrefour_urls
+from scrapers.urls import carrefour_urls
 from pymongo import MongoClient
 from decouple import config
 
