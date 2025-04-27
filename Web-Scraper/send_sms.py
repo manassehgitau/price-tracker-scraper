@@ -41,7 +41,10 @@ Category: {product["category"]}, \n
 Find the Image using {product["Image URL"]}
             '''
 
-            sms.send(message, [phone_number])    
+            sms.send(message, [phone_number]) 
+            # TODO: for each sms deduct a sms token for the service rendered
+            # TODO: Test if it works 
+            users_collection['sms_tokens'] -= 1
     else:
         message = "No products are found matching that criteria"
         sms.send(message, [phone_number])    

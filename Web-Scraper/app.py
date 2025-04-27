@@ -3,12 +3,15 @@ import africastalking
 from decouple import config
 from pymongo import MongoClient
 import datetime
+import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 from send_sms import send_sms
+from generate_invoice import generate_invoice_number
 
 app = Flask(__name__)
 username = config('AFRICAS_TALKING_USERNAME')
 api_key = config('AFRICAS_TALKING_API_KEY')
+mpesa_stk_push_url = config('MPESA_STK_PUSH_URL')
 africastalking.initialize(username, api_key)
 
 mongo_uri = config('MONGODB_URI')
@@ -105,11 +108,19 @@ def ussd_callback():
             if menu_option == "1":
                 try:
                     amount = int(choices_option)
+                        # TODO: Use the deployed mpesa STK Push to achieve this
                     if amount > 0:
-                        tokens = amount * 15
-                        response = f"END Payment of KES {amount} received successfully! 🎉\n"
-                        response += f"You have been credited with {tokens} SMS tokens. 📩"
-                        # (Optional: Update user's tokens in MongoDB here)
+                        stripped_phone_number = phone_number.replace("+", '')
+                        stk_dict = {
+                            "phoneNumber": stripped_phone_number,
+                            "amount": amount,
+                            "invoiceNumber": f"KCBTILLNO-{generate_invoice_number()}",
+                        }
+
+                        prompt_stk_push = requests.post(mpesa_stk_push_url, json=stk_dict)
+                        # print(prompt_stk_push.text)
+
+                        response = f"END Payment of KES {amount} received successfully via {phone_number}! 🎉\n"
                     else:
                         response = "END Invalid amount entered. Please try again."
 
