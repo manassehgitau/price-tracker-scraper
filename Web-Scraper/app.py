@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 import africastalking
 from decouple import config
 from pymongo import MongoClient
@@ -117,10 +117,10 @@ def ussd_callback():
                             "invoiceNumber": f"KCBTILLNO-{generate_invoice_number()}",
                         }
 
+                        response = f"END Request of payment of KES {amount} made successfully via {phone_number}! 🎉\n Kindly wait for the mpesa prompt."
                         prompt_stk_push = requests.post(mpesa_stk_push_url, json=stk_dict)
+                        
                         # print(prompt_stk_push.text)
-
-                        response = f"END Payment of KES {amount} received successfully via {phone_number}! 🎉\n"
                     else:
                         response = "END Invalid amount entered. Please try again."
 
@@ -131,8 +131,8 @@ def ussd_callback():
                 product_name = choices_option.strip()
 
                 try:
-                    send_sms(product_name, phone_number)
                     response = "END. The prices will be sent to your phone number, {}, via sms.\n Kindly Check your messages.\n Thank you for choosing us.".format(phone_number)
+                    send_sms(product_name, phone_number)
                 except Exception as e:
                     response = "END Failed to fetch the product prices. Kindly contact the service provider"
 
@@ -141,8 +141,8 @@ def ussd_callback():
             user_response = ""
 
                 
-    return response
+    return Response(response, mimetype='text/plain')
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=config("PORT"))                                        
+    app.run(host="0.0.0.0", port=config("PORT"), debug=True)                                        

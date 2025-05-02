@@ -15,6 +15,7 @@ client = MongoClient(mongo_uri)
 database = client['priceTracker']
 users_collection = database['users']
 
+
 def clean_price(price_str):
     if not price_str:
         return 0.0
@@ -27,25 +28,37 @@ def clean_price(price_str):
 def send_sms(product_name, phone_number):
     products_matched = make_comparison(product_name)
 
+    # Fetch the user document first
+    user = users_collection.find_one({"phone_number": phone_number})
+
+    if not user:
+        sms.send("User not found. Please sign up first.", [phone_number])
+        return
+
+    sms_tokens = user.get('sms tokens', 0)
+
+    if sms_tokens <= 0:
+        sms.send("Not enough tokens. Please purchase more tokens to use the service.", [phone_number])
+        return
+
     if len(products_matched) > 0:
         for product in products_matched:
-
-            # TODO: Clean the data from carrefour and jumia when scraping and must have a similar structure
-
             message = f'''
-found a match with a score of \n{math.floor(product["score"])} with the details below \n
-Store: {product["store"]}, \n
-Name: {product["Name"]}, \n
-Price: {product["Price"]}, \n
-Category: {product["category"]}, \n
-Find the Image using {product["Image URL"]}
+Found a match with a score of {math.floor(product["score"])}:
+Store: {product["store"]}
+Name: {product["Name"]}
+Price: {product["Price"]}
+Category: {product["category"]}
+Image: {product["Image URL"]}
             '''
 
-            sms.send(message, [phone_number]) 
-            # TODO: for each sms deduct a sms token for the service rendered
-            # TODO: Test if it works 
-            users_collection['sms_tokens'] -= 1
+            sms.send(message.strip(), [phone_number])
+
+            # Deduct a token and update the DB
+            sms_tokens -= 1
+            users_collection.update_one(
+                {"phone_number": phone_number},
+                {"$set": {"sms tokens": sms_tokens}}
+            )
     else:
-        message = "No products are found matching that criteria"
-        sms.send(message, [phone_number])    
-        
+        sms.send("No products found matching your search. Please try another product.", [phone_number])
