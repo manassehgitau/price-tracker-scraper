@@ -18,9 +18,8 @@ see the [pitch Deck](./pitch-deck.md)
 ---
 
 ## video walkthrough
-<video width="320" height="240" controls>
-  <source src="./img/pirceTracker.mp4" type="video/mp4">
-</video>
+[![Watch the video](https://img.youtube.com/vi/rGaQWHsanU8/0.jpg)](https://www.youtube.com/watch?v=rGaQWHsanU8)
+
 
 ---
 
