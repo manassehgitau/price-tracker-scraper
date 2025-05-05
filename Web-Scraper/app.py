@@ -51,7 +51,7 @@ def ussd_callback():
             "name": name,
             "password": generate_password_hash(password),
             "phone_number": phone_number,
-            "sms tokens": 10,
+            "sms tokens": 1500,
             "created_at": datetime.datetime.now()
             }
 

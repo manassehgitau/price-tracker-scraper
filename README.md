@@ -1,11 +1,11 @@
-# 📦 USSD Price Tracker
+# USSD Price Tracker
 
-A USSD-based price comparison and mobile payment platform designed for offline users in Kenya.
+A USSD-based price comparison and mobile payment platform designed for offline users in Kenya. <br />
 see the [pitch Deck](./pitch-deck.md)
 
 ---
 
-## 🚀 Built With
+## Built With
 
 * ![Python](https://img.shields.io/badge/Python-3670A0?style=for-the-badge\&logo=python\&logoColor=ffdd54)
 * ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge\&logo=flask\&logoColor=white) 
@@ -17,14 +17,14 @@ see the [pitch Deck](./pitch-deck.md)
 
 ---
 
-## 🖼️ Sample Image
-<img src="./img/image.png" 
-        alt="Picture" 
-        style="display: block; margin: 0 auto" />
+## video walkthrough
+<video width="320" height="240" controls>
+  <source src="./img/pirceTracker.mp4" type="video/mp4">
+</video>
 
 ---
 
-## 📖 About The Project
+## About The Project
 
 This project is a USSD application that allows users without internet access to:
 
@@ -39,15 +39,15 @@ It leverages Flask for the backend, Express for M-PESA logic, and MongoDB for da
 
 ## 🛠 Getting Started
 
-### 🔐 Prerequisites
+### Prerequisites
 
 * Python 3.8+
 * Node.js 14+
 * Ngrok account (for tunneling localhost)
 * Africa's Talking & KCB BUNI credentials
 
-### 🧰 Installation
-
+### Installation
+update the derail
 ```bash
 # Clone the repo
 $ git clone https://github.com/manassehgitau/price-tracker-scraper.git
@@ -66,7 +66,7 @@ $ cd mpesa-server
 $ npm install
 ```
 
-### ▶️ Usage
+### Usage
 
 ```bash
 # Start Flask server (USSD + SMS)
@@ -83,7 +83,7 @@ Ensure callback URLs are set correctly in your Africa's Talking and M-PESA dashb
 
 ---
 
-## 🛣️ Roadmap
+## Roadmap
 
 * [x] USSD product listing & navigation
 * [x] M-PESA STK Push integration
@@ -94,7 +94,7 @@ Ensure callback URLs are set correctly in your Africa's Talking and M-PESA dashb
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please fork the repo and submit a pull request.
 
@@ -106,7 +106,7 @@ Contributions are welcome! Please fork the repo and submit a pull request.
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
